@@ -1,4 +1,4 @@
-## Automated Deploy and Build Process
+## Automated Iaas and Build Process
 
 This project is for practicing terraform, aws, gcp, docker, k8s and Jenkins.
 
