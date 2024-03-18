@@ -60,7 +60,7 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 script {
-                    if (env.IAAS_CHANGES == 'true') {
+                    if (IAAS_CHANGES == 'true') {
                         echo 'Changes detected in core/iaas folder, initializing the terraform...'
                         sh 'cd core/iaas && terraform init'
                     } else {
@@ -73,7 +73,7 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 script {
-                    if (env.IAAS_CHANGES == 'true') {
+                    if (IAAS_CHANGES == 'true') {
                         echo 'Changes detected in core/iaas folder, planning the terraform...'
                         sh 'cd core/iaas && terraform plan'
                     } else {
@@ -86,7 +86,7 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 script {
-                    if (env.IAAS_CHANGES == 'true') {
+                    if (IAAS_CHANGES == 'true') {
                         echo 'Changes detected in core/iaas folder, applying the changes to the hyperscaler...'
                         sh 'cd core/iaas && terraform apply -auto-approve -var "pub_key_path=${env.PUB_KEY_PATH}" -var "project=${env.GCP_PROJECT}" -var-file=prod.tfvars'
                     } else {
