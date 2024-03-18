@@ -24,6 +24,13 @@ pipeline {
             }
         }
 
+        stage('Checkout') {
+            steps {
+                echo 'Checking out the code...'
+                checkout scm
+            }
+        }
+
         stage('Check Changes') {
             steps {
                 script {
