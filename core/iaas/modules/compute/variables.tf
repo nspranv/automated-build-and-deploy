@@ -34,7 +34,7 @@ variable "subnet_id" {
 }
 
 variable "is_enable_external_ip" {
-  description = "Whether to enable external IP for the instance"
+  description = "Whether to enable external IP for instance"
   type        = bool
 }
 
