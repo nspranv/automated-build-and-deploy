@@ -39,7 +39,7 @@ variable "is_enable_external_ip" {
 }
 
 variable "user_data_file_path" {
-  description = "The path to the user data file"
+  description = "The path to user data file"
   type        = string
   default = ""
 }
