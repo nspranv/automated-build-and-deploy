@@ -9,7 +9,7 @@ variable "instance_type" {
 }
 
 variable "instance_image" {
-  description = "The image of the instance"
+  description = "The image of instance"
   type        = string
 }
 
