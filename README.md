@@ -1,26 +1,31 @@
 ## Automated Iaas and Build Process
 
-This project is for practicing terraform, aws, gcp, docker, k8s and Jenkins.
-
-### Architechture
-
+This project is for practicing terraform, aws, gcp and Jenkins.
 
 ### Things to note:
 
 Pre Steps:
 
-1. Setup jenkins first and install all the necessary plugins
+1. Setup jenkins by running the terraform commands for jenkins-iaas folder
 
-    Install terraform plugin in Jenkins
+1. Install all the necessary plugins - terraform, GCP Secret Manager, AWS Secret Manager (if required) and Github Integration [For webhooks management]
 
-2. Setup necessary plugins and setup the initial credentials
+2. Setup the credentials to talk to the GCP
 
-    Manage Jenkins > Crendentials > New Credential
+    Manage Jenkins > Crendentials > New Credential as secret files
 
     1. GCP credentials
-    2. pub key
+    2. Pub key
 
-3. Create a web hook in the repo to stream the push events to jenkins
+3. The environment variable needs to be mentioned in the Jenkins file and that should be exactly similar to what is mentioned in the terraform official documentation by the provider https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/getting_started#adding-credentials
+
+4. Add webhook url to the webhooks in the settings of the repo.
+
+    ```bash
+    http://<instance-ip>:<port-of-jenkins>/github-webhook/
+    ```
+
+    This will send a event to the jenkins when ever there is a push or any event [if you select that option]
 
 General:
 

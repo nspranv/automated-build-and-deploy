@@ -62,7 +62,9 @@ pipeline {
                 script {
                     if (IAAS_CHANGES == 'true') {
                         echo 'Changes detected in core/iaas folder, initializing the terraform...'
-                        sh 'cd core/iaas && terraform init'
+                        dir('core/iaas') {
+                            sh 'terraform init'
+                        }
                     } else {
                         echo 'No changes detected in core/iaas folder, skipping the terraform init...'
                     }
