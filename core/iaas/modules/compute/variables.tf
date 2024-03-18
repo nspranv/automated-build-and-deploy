@@ -45,7 +45,7 @@ variable "user_data_file_path" {
 }
 
 variable "owner" {
-  description = "The owner of the instance"
+  description = "The owner of instance"
   type        = string
 }
 
