@@ -40,13 +40,10 @@ pipeline {
 
                     sh 'git --version'
 
-                    // Print the current commit SHA
-                    sh 'git rev-parse HEAD'
-
-                    // Print the commit history
-                    sh 'git log --oneline'
-
                     def changes = sh(script: 'git diff --name-only HEAD^ HEAD', returnStdout: true).trim()
+                    
+                    echo "Changes detected in the following files: ${changes}"
+
                     env.IAAS_CHANGES = changes.contains('core/iaas') ? 'true' : 'false'
                     env.LANDSCAPES_CHANGES = changes.contains('core/landscapes') ? 'true' : 'false'
                 }
