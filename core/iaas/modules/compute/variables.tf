@@ -24,7 +24,7 @@ variable "vpc_name" {
 }
 
 variable "instance_tags" {
-  description = "The tags for the instance"
+  description = "The tags for instance"
   type        = list(string)
 }
 
