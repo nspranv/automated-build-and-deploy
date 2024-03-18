@@ -1,8 +1,3 @@
-variable "vpc_id" {
-  description = "The ID of the VPC"
-  type        = string 
-}
-
 resource "aws_security_group" "jenkins_sg" {
   name        = "jenkins-sg"
   description = "Security group for Jenkins"
@@ -40,9 +35,4 @@ resource "aws_security_group" "jenkins_sg" {
   tags = {
     Name = "Security Groups to allow SSH(22), HTTP(8080), HTTPS(443) traffic"
   }
-}
-
-output "jenkins_sg_id" {
-  description = "The ID of the security group"
-  value       = aws_security_group.jenkins_sg.id
 }

@@ -1,30 +1,76 @@
 pipeline {
     agent any
 
-    stages {
-        stage('stage-1') {
-            steps {
-                echo 'Hello everyone from Jenkins'
-            }
-        }
-        stage('git clone'){
-            steps {
-                git branch: 'main', url: 'https://github.com/nspranv/automated-build-and-deploy'
-            }
-        }
+    environment {
+        IAAS_CHANGES = 'false'
+        LANDSCAPES_CHANGES = 'false'
+
+        // Change the below values to your own values
+
+        // The below value is the path to the service account key file, the environment variable GOOGLE_APPLICATION_CREDENTIALS is used by the terraform to authenticate with the GCP, and the name of the variable is fixed.
+        // Refer to the terraform documentation for more information: https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/getting_started#adding-credentials
+
+        GOOGLE_APPLICATION_CREDENTIALS = credentials("gcp_credentials")
+        GCP_PROJECT = credentials("gcp_project_id")
+        PUB_KEY_PATH = credentials("proj_pub_key")
     }
-    post{
-        failure{
-            emailext to: "pranavdhar.nalamalapu@sap.com",
-            subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
-            body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}",
-            attachLog: true
+
+    stages {
+
+        stage('Initialize') {
+            steps {
+                echo 'Initializing...'
+                deleteDir()
+            }
         }
-        success{
-            emailext to: "pranavdhar.nalamalapu@sap.com",
-            subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
-            body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}",
-            attachLog: true
+
+        stage('Check Changes') {
+            steps {
+                script {
+                    def changes = sh(script: 'git diff --name-only HEAD^ HEAD', returnStdout: true).trim()
+                    env.IAAS_CHANGES = changes.contains('core/iaas') ? 'true' : 'false'
+                    env.LANDSCAPES_CHANGES = changes.contains('core/landscapes') ? 'true' : 'false'
+                }
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                script {
+                    if (env.IAAS_CHANGES == 'true') {
+                        echo 'Changes detected in core/iaas folder, initializing the terraform...'
+                        sh 'cd core/iaas && terraform init'
+                    } else {
+                        echo 'No changes detected in core/iaas folder, skipping the terraform init...'
+                    }
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                script {
+                    if (env.IAAS_CHANGES == 'true') {
+                        echo 'Changes detected in core/iaas folder, planning the terraform...'
+                        sh 'cd core/iaas && terraform plan'
+                    } else {
+                        echo 'No changes detected in core/iaas folder, skipping the terraform plan...'
+                    }
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                script {
+                    if (env.IAAS_CHANGES == 'true') {
+                        echo 'Changes detected in core/iaas folder, applying the changes to the hyperscaler...'
+                        sh 'cd core/iaas && terraform apply -auto-approve -var "pub_key_path=${env.PUB_KEY_PATH}" -var "project=${env.GCP_PROJECT}" -var-file=prod.tfvars'
+                    } else {
+                        echo 'No changes detected in core/iaas folder, skipping the terraform apply...'
+                    }
+                }
+            }
         }
     }
 }

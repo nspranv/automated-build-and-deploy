@@ -1,37 +1,3 @@
-variable "vpc_name" {
-  description = "The name of the VPC"
-  type        = string
-  default     = "jenkins-vpc"
-}
-
-variable "vpc_cidr_block" {
-  description = "The CIDR block for the VPC"
-  type        = string
-  default     = ""
-}
-
-variable "public_subnets" {
-  description = "The CIDR blocks for the public subnets"
-  type        = list(object({
-    name = string
-    cidr = string 
-  }))
-}
-
-variable "private_subnets" {
-  description = "The CIDR blocks for the private subnets"
-  type        = list(object({
-    name = string
-    cidr = string 
-  }))
-}
-
-variable "region" {
-  description = "The region in which the resources will be deployed"
-  type        = string
-  default     = "us-west-2"
-}
-
 resource "aws_vpc" "jenkins_vpc" {
   cidr_block = var.vpc_cidr_block
   enable_dns_support = true
@@ -46,10 +12,6 @@ resource "aws_internet_gateway" "jenkins_igw" {
   tags = {
     Name = "jenkins-igw"
   }
-}
-
-data "aws_availability_zones" "available" {
-  state = "available" 
 }
 
 resource "aws_subnet" "public_subnets" {
@@ -127,18 +89,4 @@ resource "aws_route" "private_nat_routes" {
   route_table_id = aws_route_table.private_route_tables[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id = aws_nat_gateway.nat_gateways[count.index].id
-}
-
-
-# Output variables if needed
-output "nat_gateway_ids" {
-  value = aws_nat_gateway.nat_gateways[*].id
-}
-
-output "vpc_id" {
-  value = aws_vpc.jenkins_vpc.id
-}
-
-output "public_subnet_ids" {
-  value = aws_subnet.public_subnets[*].id
 }
