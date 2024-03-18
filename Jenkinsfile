@@ -28,6 +28,7 @@ pipeline {
             steps {
                 script {
                     // give execute permission to the private key
+                    
                     sh 'chmod 600 $PUB_KEY_PATH'
 
                     // give execute permission to the workspace
