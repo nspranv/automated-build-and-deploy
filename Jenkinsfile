@@ -76,7 +76,7 @@ pipeline {
                     if (IAAS_CHANGES == 'true') {
                         echo 'Changes detected in core/iaas folder, planning the terraform...'
                         dir('core/iaas') {
-                            sh 'terraform plan -var-file="prod.tfvars"'
+                            sh 'terraform plan -var-file="prod.tfvars" -var pub_key_path=${PUB_KEY_PATH} -var project=${GCP_PROJECT}'
                         }
                     } else {
                         echo 'No changes detected in core/iaas folder, skipping the terraform plan...'
