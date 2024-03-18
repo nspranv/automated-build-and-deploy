@@ -50,6 +50,6 @@ variable "owner" {
 }
 
 variable "public_key_path" {
-  description = "The path to the public key"
+  description = "The path to public key"
   type        = string
 }
