@@ -28,6 +28,8 @@ pipeline {
             steps {
                 script {
 
+                    sh pwd()
+
                     // Print the current commit SHA
                     sh 'git rev-parse HEAD'
 
