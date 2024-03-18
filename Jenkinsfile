@@ -41,11 +41,18 @@ pipeline {
                     sh 'git --version'
 
                     def changes = sh(script: 'git diff --name-only HEAD^ HEAD', returnStdout: true).trim()
+
+                    changes = changes.split('\n')
                     
                     echo "Changes detected in the following files: ${changes}"
-
-                    env.IAAS_CHANGES = changes.contains('core/iaas') ? 'true' : 'false'
-                    env.LANDSCAPES_CHANGES = changes.contains('core/landscapes') ? 'true' : 'false'
+                    
+                    for (change in changes) {
+                        if (change.startsWith('core/iaas')) {
+                            IAAS_CHANGES = 'true'
+                        } else if (change.startsWith('core/landscapes')) {
+                            LANDSCAPES_CHANGES = 'true'
+                        }
+                    }
                 }
             }
         }

@@ -1,3 +1,4 @@
+# Location
 region="us-central1"
 
 # Network
