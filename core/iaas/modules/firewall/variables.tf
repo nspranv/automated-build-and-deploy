@@ -1,11 +1,11 @@
 variable "firewall_name" {
-    description = "The name of the firewall"
+    description = "The name of firewall"
     type        = string
     default     = "core"
 }
 
 variable "vpc_name" {
-    description = "The name of the VPC"
+    description = "The name of VPC"
     type        = string
 }
 

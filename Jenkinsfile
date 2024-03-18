@@ -90,7 +90,9 @@ pipeline {
                 script {
                     if (IAAS_CHANGES == 'true') {
                         echo 'Changes detected in core/iaas folder, applying the changes to the hyperscaler...'
-                        sh 'terraform apply -auto-approve -var "pub_key_path=${env.PUB_KEY_PATH}" -var "project=${env.GCP_PROJECT}" -var-file="prod.tfvars"'
+                        dir('core/iaas') {
+                            sh 'terraform apply -auto-approve -var-file="prod.tfvars" -var pub_key_path=${PUB_KEY_PATH} -var project=${GCP_PROJECT}'
+                        }
                     } else {
                         echo 'No changes detected in core/iaas folder, skipping the terraform apply...'
                     }
