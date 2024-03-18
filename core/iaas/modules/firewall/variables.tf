@@ -10,7 +10,7 @@ variable "vpc_name" {
 }
 
 variable "allow_http_firewall_target_tags" {
-    description = "The target tags for the HTTP firewall rule"
+    description = "The target tags for HTTP firewall rule"
     type        = list(string)
 }
 
