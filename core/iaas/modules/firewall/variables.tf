@@ -1,5 +1,5 @@
 variable "firewall_name" {
-    description = "The name of the firewall"
+    description = "The name of firewall"
     type        = string
     default     = "core"
 }
