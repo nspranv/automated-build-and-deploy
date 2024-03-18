@@ -5,7 +5,7 @@ variable "region" {
 }
 
 variable "project" {
-  description = "The GCP project in which resources will be deployed"
+  description = "The GCP project in which the resources will be deployed"
   type        = string
   default     = "my-dc-setup"
 }
