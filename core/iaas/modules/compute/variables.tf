@@ -14,7 +14,7 @@ variable "instance_image" {
 }
 
 variable "zone"{
-    description = "The zone in which the instance will be deployed"
+    description = "The zone in which instance will be deployed"
     type        = string
 }
 
