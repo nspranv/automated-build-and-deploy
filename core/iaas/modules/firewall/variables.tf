@@ -5,7 +5,7 @@ variable "firewall_name" {
 }
 
 variable "vpc_name" {
-    description = "The name of VPC"
+    description = "The name of the VPC"
     type        = string
 }
 
