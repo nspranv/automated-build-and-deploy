@@ -15,6 +15,6 @@ variable "allow_http_firewall_target_tags" {
 }
 
 variable "allow_ssh_firewall_target_tags" {
-    description = "The target tags for the SSH firewall rule"
+    description = "The target tags for SSH firewall rule"
     type        = list(string)
 }
