@@ -75,7 +75,7 @@ pipeline {
                 script {
                     if (IAAS_CHANGES == 'true') {
                         echo 'Changes detected in core/iaas folder, planning the terraform...'
-                        sh 'cd core/iaas && terraform plan -var "pub_key_path=${env.PUB_KEY_PATH}" -var "project=${env.GCP_PROJECT}" -var-file=prod.tfvars'
+                        sh 'terraform plan -var "pub_key_path=${env.PUB_KEY_PATH}" -var "project=${env.GCP_PROJECT}" -var-file=prod.tfvars'
                     } else {
                         echo 'No changes detected in core/iaas folder, skipping the terraform plan...'
                     }
@@ -88,7 +88,7 @@ pipeline {
                 script {
                     if (IAAS_CHANGES == 'true') {
                         echo 'Changes detected in core/iaas folder, applying the changes to the hyperscaler...'
-                        sh 'cd core/iaas && terraform apply -auto-approve -var "pub_key_path=${env.PUB_KEY_PATH}" -var "project=${env.GCP_PROJECT}" -var-file=prod.tfvars'
+                        sh 'terraform apply -auto-approve -var "pub_key_path=${env.PUB_KEY_PATH}" -var "project=${env.GCP_PROJECT}" -var-file=prod.tfvars'
                     } else {
                         echo 'No changes detected in core/iaas folder, skipping the terraform apply...'
                     }
