@@ -28,13 +28,10 @@ pipeline {
             steps {
                 script {
                     // give execute permission to the private key
-                    
+
                     sh 'chmod 600 $PUB_KEY_PATH'
 
-                    // give execute permission to the workspace
-                    sh 'sudo chmod -R 755 /var/lib/jenkins/workspace/dc-build-out-project'
-
-                    sh pwd()
+                    sh 'git --version'
 
                     // Print the current commit SHA
                     sh 'git rev-parse HEAD'
