@@ -29,7 +29,7 @@ variable "instance_tags" {
 }
 
 variable "subnet_id" {
-  description = "The ID of the subnet"
+  description = "The ID of subnet"
   type        = string
 }
 
