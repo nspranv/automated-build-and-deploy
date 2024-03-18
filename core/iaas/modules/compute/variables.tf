@@ -4,7 +4,7 @@ variable "instance_name" {
 }
 
 variable "instance_type" {
-  description = "The type of the instance"
+  description = "The type of instance"
   type        = string
 }
 
