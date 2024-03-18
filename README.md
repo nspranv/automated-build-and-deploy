@@ -20,6 +20,8 @@ Pre Steps:
     1. GCP credentials
     2. pub key
 
+3. Create a web hook in the repo to stream the push events to jenkins
+
 General:
 
 1. As we are using ingress cidr blocks as the respective IP it will change on connecting to the different network which will results in failure of ssh connection
